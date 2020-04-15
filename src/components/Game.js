@@ -1,11 +1,17 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Square from './Square';
 
 function Game() {
+  const [ squares, setSquares ] = useState(Array(9).fill(null));
+
   function renderSquare(i) {
     return <Square
-      value={i}
-      onClick={null}
+      value={squares[i]}
+      onClick={() => {
+        const nextSquares = squares.slice();
+        nextSquares[i] = 'X';
+        setSquares(nextSquares);
+      }}
     />;
   }
 
