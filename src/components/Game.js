@@ -3,14 +3,17 @@ import Square from './Square';
 
 function Game() {
   const [ squares, setSquares ] = useState(Array(9).fill(null));
+  const [ isXNext, setIsXNext ] = useState(true);
 
   function renderSquare(i) {
     return <Square
       value={squares[i]}
       onClick={() => {
         const nextSquares = squares.slice();
-        nextSquares[i] = 'X';
+        nextSquares[i] = isXNext ? "X" : "O";
         setSquares(nextSquares);
+
+        setIsXNext(!isXNext); // toggle turns
       }}
     />;
   }
