@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Square from './Square';
 import calculateWinner from '../helpers/calculateWinner';
 import isBoardFull from '../helpers/isBoardFull';
+import Restart from './Restart';
 
 function Game() {
   const [ squares, setSquares ] = useState(Array(9).fill(null));
@@ -20,7 +21,7 @@ function Game() {
   }
 
   function renderSquare(i) {
-    return <Square
+    return (<Square
       value={squares[i]}
       onClick={() => {
         if (squares[i] != null || winner != null) {
@@ -32,7 +33,18 @@ function Game() {
 
         setIsXNext(!isXNext); // toggle turns
       }}
-    />;
+    />);
+  }
+
+  function renderRestartButton() {
+    return (
+      <Restart
+        onClick={() => {
+          setSquares(Array(9).fill(null));
+          setIsXNext(true);
+        }}
+      />
+    );
   }
 
   return (
@@ -56,6 +68,7 @@ function Game() {
           </div>
         </div>
         <div className="game-info">{getStatus()}</div>
+        <div className="restart-button">{renderRestartButton()}</div>
       </div>
     </div>
   );
