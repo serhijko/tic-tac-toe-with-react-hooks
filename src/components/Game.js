@@ -1,16 +1,33 @@
 import React, { useState } from 'react';
 import Square from './Square';
+import calculateWinner from '../helpers/calculateWinner';
+import isBoardFull from '../helpers/isBoardFull';
 
 function Game() {
   const [ squares, setSquares ] = useState(Array(9).fill(null));
   const [ isXNext, setIsXNext ] = useState(true);
+  const nextSymbol = isXNext ? "X" : "O";
+  const winner = calculateWinner(squares);
+
+  function getStatus() {
+    if (winner) {
+      return "Winner: " + winner;
+    } else if (isBoardFull(squares)) {
+      return "Draw!";
+    } else {
+      return "Next player: " + nextSymbol;
+    }
+  }
 
   function renderSquare(i) {
     return <Square
       value={squares[i]}
       onClick={() => {
+        if (squares[i] != null || winner != null) {
+          return;
+        }
         const nextSquares = squares.slice();
-        nextSquares[i] = isXNext ? "X" : "O";
+        nextSquares[i] = nextSymbol;
         setSquares(nextSquares);
 
         setIsXNext(!isXNext); // toggle turns
@@ -38,6 +55,7 @@ function Game() {
             {renderSquare(8)}
           </div>
         </div>
+        <div className="game-info">{getStatus()}</div>
       </div>
     </div>
   );
